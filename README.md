@@ -2,8 +2,6 @@
 
 ## Introduction
 
-Introduction
-
 PHP_Laravel12_Navigation is a Laravel 12 project that demonstrates a fully dynamic navigation system using the Spatie Laravel Navigation package.
 It allows developers to define menus and submenus in a configuration file and automatically renders them across all Blade views. This project supports multi-level dropdowns, active link highlighting, and is fully customizable using Laravel’s config system.
 
