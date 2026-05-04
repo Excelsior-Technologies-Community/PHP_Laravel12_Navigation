@@ -1,7 +1,9 @@
 <?php
 
 return [
+
     'items' => [
+
         [
             'title' => 'Home',
             'route' => 'home',

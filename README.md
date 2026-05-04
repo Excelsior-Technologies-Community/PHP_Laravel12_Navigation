@@ -455,7 +455,10 @@ PHP_Laravel12_Navigation/
 ---
 
 Your PHP_Laravel12_Navigation Project is now ready!
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> development
