@@ -1,156 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyApp - Modern Laravel Layout</title>
+    <title>Laravel Navigation App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            min-height: 100vh;
         }
 
-        /* Navbar */
+        /* FLOATING NAVBAR */
         .navbar {
-            background: linear-gradient(90deg, #4f46e5, #3b82f6);
+            background: white;
+            margin: 15px auto;
+            width: 92%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 12px 18px;
         }
+
         .navbar-brand {
-            color: #fff !important;
             font-weight: 700;
-            font-size: 1.6rem;
+            color: #4f46e5 !important;
         }
-        .navbar-nav .nav-link {
-            color: #e0e7ff !important;
+
+        .nav-link {
+            color: #374151 !important;
             font-weight: 500;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .navbar-nav .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 0%;
-            background: linear-gradient(90deg, #facc15, #f59e0b);
-            transition: all 0.3s ease;
-            border-radius: 3px;
-            z-index: -1;
-        }
-        .navbar-nav .nav-link:hover::after {
-            height: 100%;
-        }
-        .navbar-nav .nav-link.active {
-            color: #fff !important;
-            font-weight: 700;
+            margin: 0 6px;
+            border-radius: 10px;
+            padding: 8px 12px;
+            transition: 0.3s;
         }
 
-        /* Dropdown */
+        .nav-link:hover {
+            background: #eef2ff;
+            color: #4f46e5 !important;
+        }
+
+        .nav-link.active {
+            background: #4f46e5;
+            color: white !important;
+        }
+
+        /* DROPDOWN */
         .dropdown-menu {
-            border-radius: 0.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            padding: 10px;
         }
+
         .dropdown-item {
-            transition: all 0.2s ease;
-            border-radius: 0.25rem;
-        }
-        .dropdown-item:hover, .dropdown-item.active {
-            background: linear-gradient(90deg, #facc15, #f59e0b) !important;
-            color: #1e40af !important;
-            font-weight: 600;
+            border-radius: 10px;
+            padding: 8px 12px;
         }
 
-        /* Main Content */
-        main.container {
-            padding: 2rem 1rem;
-            background-color: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.05);
-            margin-top: 2rem;
+        .dropdown-item:hover {
+            background: #4f46e5;
+            color: white;
         }
 
-        /* Footer */
+        /* CENTER CARD LAYOUT */
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding-top: 20px;
+        }
+
+        .content-card {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* FOOTER */
         footer {
-            background-color: #1e293b;
-            color: #cbd5e1;
-            padding: 2rem 0;
-        }
-
-        /* Navbar toggler */
-        .navbar-toggler {
-            border-color: rgba(255,255,255,0.3);
-        }
-        .navbar-toggler-icon {
-            filter: invert(1);
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 14px;
         }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg fixed-top shadow-lg">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">MyApp</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<body>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                @foreach(app(Spatie\Navigation\Navigation::class)->tree() as $item)
-                    @if(!empty($item['children']))
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ ($item['url'] ?? '') === url()->current() ? 'active' : '' }}"
-                               href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $item['title'] }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach($item['children'] as $child)
-                                    <li>
-                                        <a class="dropdown-item {{ ($child['url'] ?? '') === url()->current() ? 'active' : '' }}"
-                                           href="{{ $child['url'] ?? '#' }}">
-                                           {{ $child['title'] }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link {{ ($item['url'] ?? '') === url()->current() ? 'active' : '' }}"
-                               href="{{ $item['url'] ?? '#' }}">
-                               {{ $item['title'] }}
-                            </a>
-                        </li>
-                    @endif
-                @endforeach
-            </ul>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="{{ route('home') }}">
+                ⚡ LaravelApp
+            </a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    @foreach($menu ?? [] as $item)
+
+                        @php
+                            $isActive = request()->routeIs($item['route']);
+                        @endphp
+
+                        @if(isset($item['children']))
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}" data-bs-toggle="dropdown">
+                                    {{ $item['title'] }}
+                                </a>
+
+                                <ul class="dropdown-menu">
+
+                                    @foreach($item['children'] as $child)
+                                        <li>
+                                            <a class="dropdown-item {{ request()->routeIs($child['route']) ? 'active' : '' }}"
+                                                href="{{ route($child['route']) }}">
+                                                {{ $child['title'] }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+
+                                </ul>
+
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link {{ $isActive ? 'active' : '' }}" href="{{ route($item['route']) }}">
+                                    {{ $item['title'] }}
+                                </a>
+                            </li>
+                        @endif
+
+                    @endforeach
+
+                </ul>
+
+            </div>
         </div>
+    </nav>
+
+    <!-- CENTER CONTENT CARD -->
+    <div class="main-wrapper">
+
+        <div class="content-card">
+
+            @yield('content')
+
+        </div>
+
     </div>
-</nav>
 
-<!-- Main Content -->
-<main class="container flex-grow-1 mt-5">
-    @yield('content')
-</main>
+    <!-- FOOTER -->
+    <footer>
+        © {{ date('Y') }} Laravel App • Built with Modern UI ✨
+    </footer>
 
-<!-- Footer -->
-<footer class="mt-auto text-center">
-    &copy; {{ date('Y') }} MyApp. All rights reserved.
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
